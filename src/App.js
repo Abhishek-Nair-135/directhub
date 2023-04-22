@@ -2,9 +2,9 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import PullRequests from "./pages/PullRequests/PullRequests";
 import Issues from "./pages/Issues/Issues";
-import Details from "./components/Details/Details";
 import IssueDetails from "./pages/IssueDetails/IssueDetails";
 import PullRequestDetails from "./pages/PullRequestDetails/PullRequestDetails";
+import NotFound from "./pages/404";
 
 function App() {
     return (
@@ -20,6 +20,7 @@ function App() {
                         <Route path=":owner/:repo" element={<PullRequests />} />
                         <Route path=":owner/:repo/:pull_number" element={<PullRequestDetails />} />
                     </Route>
+                    <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
         </div>
