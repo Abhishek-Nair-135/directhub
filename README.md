@@ -2,7 +2,7 @@
 
 This project makes use of GItHub APIs to help users access their issues and pull requests.
 
-## Installation Instructions
+## Execution Instructions
 
 1.  Create `.env` file in the root folder of the project
 
