@@ -1,0 +1,15 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.repo_select {
+    min-width: 250px;
+    margin-bottom: 5rem;
+}
+
+.info_cards {
+    display: flex;
+    column-gap: 10vw;
+}
