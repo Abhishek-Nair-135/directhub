@@ -1,6 +1,6 @@
 # DirectHub
 
-This project makes use of GItHub APIs to help users access their issues and pull requests.
+This project makes use of GitHub APIs to help users access their issues and pull requests.
 
 ## Execution Instructions
 
