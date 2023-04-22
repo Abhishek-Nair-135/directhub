@@ -12,10 +12,10 @@ const Dashboard = () => {
 
     async function fetchRepos() {
         const repos = await octokit.rest.repos.listForAuthenticatedUser();
-        const list = repos.data.map((repo) => ({ name: repo.name, full_name: repo.full_name }));
+        const list = repos?.data?.map((repo) => ({ name: repo?.name, full_name: repo?.full_name }));
 
         setReposList(list);
-        setCurrentRepo(list[0].name);
+        setCurrentRepo(list[0]?.name);
     }
 
     async function fetchIssues() {

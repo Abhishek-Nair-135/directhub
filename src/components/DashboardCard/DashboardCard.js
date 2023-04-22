@@ -7,23 +7,21 @@ const DashboardCard = ({ title, data, viewAllPath }) => {
     return (
         <Card className={styles.card} elevation={3}>
             <CardHeader title={title} />
-            {data.length > 0 ? (
-                <>
-                    <CardContent>
+            <CardContent>
+                {data.length > 0 ? (
+                    <>
                         {data.map((item) => (
                             <div className={styles.details} key={item.title}>
                                 <div>{item.title}</div>
                                 <div>{findRelativeTime(item.created_at)}</div>
                             </div>
                         ))}
-                    </CardContent>
-                    <CardActions>
-                        <Link to={viewAllPath}>View All</Link>
-                    </CardActions>
-                </>
-            ) : (
-                <div>No {title} available</div>
-            )}
+                    </>
+                ) : (
+                    <div>No {title} available</div>
+                )}
+            </CardContent>
+            <CardActions>{data.length > 0 && <Link to={viewAllPath}>View All</Link>}</CardActions>
         </Card>
     );
 };
