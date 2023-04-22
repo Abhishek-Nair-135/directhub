@@ -1,0 +1,17 @@
+.details_section {
+    width: 80%;
+}
+
+.details_section__comments {
+    margin-top: 50px;
+}
+
+.comment {
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 1rem;
+}
