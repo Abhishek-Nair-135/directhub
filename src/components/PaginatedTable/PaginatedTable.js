@@ -28,12 +28,12 @@ const PaginatedTable = ({
 }) => {
     const generateTableRows = useCallback(() => {
         const rows = [];
-        
+
         for (let dataItems of data) {
             const cells = [];
             for (let column of columns) {
                 let cellElem;
-                if (dataItems[column.name].type === "number") {
+                if (dataItems[column.name].type === "number" || dataItems[column.name].type === "string") {
                     cellElem = <p>{dataItems[column.name].data}</p>;
                 } else if (dataItems[column.name].type === "link") {
                     cellElem = <Link to={`${dataItems.number}`}>{dataItems[column.name].data}</Link>;
