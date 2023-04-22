@@ -1,0 +1,9 @@
+.card {
+    padding: 15px;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
+}
