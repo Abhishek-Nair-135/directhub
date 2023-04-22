@@ -15,7 +15,9 @@ const Issues = () => {
     const { owner, repo } = useParams();
 
     async function fetchIssues() {
-        const response = await octokit.rest.issues.list({
+        const response = await octokit.rest.issues.listForRepo({
+            owner,
+            repo,
             per_page: rowsPerPage,
             page: page + 1,
             pulls: false,
