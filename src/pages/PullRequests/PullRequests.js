@@ -50,10 +50,9 @@ const PullRequests = () => {
 
                 setPulls(transformedData);
             } else {
-                setError(true);
+                throw new Error("No data found");
             }
 
-            //   console.log("reaponse", response);
         } catch (error) {
             setError(true);
         } finally {
@@ -62,6 +61,7 @@ const PullRequests = () => {
     }
 
     useEffect(() => {
+        setError(false);
         fetchPulls();
     }, [page, rowsPerPage, status, order]);
 
@@ -84,26 +84,26 @@ const PullRequests = () => {
     return (
         <div className={styles.pulls}>
             <h2>Pulls</h2>
-            {error.issues ? (
-                <p>No Data found</p>
-            ) : (
-                <div className={styles.pulls_section}>
-                    <div className={styles.pulls_section__filters}>
-                        <FormControl className={styles.status}>
-                            <InputLabel id="status-select-label">Status</InputLabel>
-                            <Select
-                                labelId="status-select-label"
-                                id="status-select"
-                                value={status}
-                                label="Status"
-                                onChange={handleStatusChange}
-                            >
-                                <MenuItem value={"all"}>All</MenuItem>
-                                <MenuItem value={"open"}>Open</MenuItem>
-                                <MenuItem value={"closed"}>Closed</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
+            <div className={styles.pulls_section}>
+                <div className={styles.pulls_section__filters}>
+                    <FormControl className={styles.status}>
+                        <InputLabel id="status-select-label">Status</InputLabel>
+                        <Select
+                            labelId="status-select-label"
+                            id="status-select"
+                            value={status}
+                            label="Status"
+                            onChange={handleStatusChange}
+                        >
+                            <MenuItem value={"all"}>All</MenuItem>
+                            <MenuItem value={"open"}>Open</MenuItem>
+                            <MenuItem value={"closed"}>Closed</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+                {error ? (
+                    <p style={{ textAlign: "center" }}>No Data found</p>
+                ) : (
                     <PaginatedTable
                         loading={loading}
                         data={pulls}
@@ -115,8 +115,8 @@ const PullRequests = () => {
                         handleChangePage={handleChangePage}
                         handleChangeRowsPerPage={handleChangeRowsPerPage}
                     />
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

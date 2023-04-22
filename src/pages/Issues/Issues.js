@@ -52,18 +52,16 @@ const Issues = () => {
                     dataObj["No of Comments"] = { data: issue.comments, type: "number" };
                     transformedData.push(dataObj);
                 });
-                
+
                 setIssues(transformedData);
             } else {
-                setError(true);
+                throw new Error("No data found");
             }
         } catch (error) {
             setError((prevErrors) => ({ ...prevErrors, issues: true }));
         } finally {
             setLoading(false);
         }
-
-        //   console.log("reaponse", response);
     }
 
     async function getLabels() {
@@ -84,12 +82,21 @@ const Issues = () => {
     }
 
     useEffect(() => {
+        resetErrors();
         fetchIssues();
     }, [page, rowsPerPage, ...selectedLabels, status]);
 
     useEffect(() => {
+        resetErrors();
         getLabels();
     }, [owner, repo]);
+
+    const resetErrors = () => {
+        setError({
+            issues: false,
+            labels: false,
+        });
+    };
 
     const handleChangePage = (e) => {
         setPage(e.target.value);
@@ -117,66 +124,66 @@ const Issues = () => {
     return (
         <div className={styles.issues}>
             <h2>Issues</h2>
-            {error.issues ? (
-                <p>No Data found</p>
-            ) : (
-                <div className={styles.issues_section}>
-                    <div className={styles.issues_section__filters}>
-                        {error.labels ? (
-                            <div>Error loading labels, please refresh the page</div>
-                        ) : (
-                            <FormControl sx={{ minWidth: 250 }}>
-                                <InputLabel id="issue-label-select-chip-label">Labels</InputLabel>
-                                <Select
-                                    labelId="issue-label-select-chip-label"
-                                    id="issue-label-select-chip"
-                                    multiple
-                                    value={selectedLabels}
-                                    onChange={handleLabelChange}
-                                    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                                    renderValue={(selected) => (
-                                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                                            {selected.map((value) => (
-                                                <Chip
-                                                    key={value}
-                                                    label={labels[value].name}
-                                                    avatar={
-                                                        <Avatar sx={{ bgcolor: `#${labels[value].color}` }}>
-                                                            <div></div>
-                                                        </Avatar>
-                                                    }
-                                                    onDelete={(e) => handleLabelDelete(e, value)}
-                                                    deleteIcon={
-                                                        <CancelIcon onMouseDown={(event) => event.stopPropagation()} />
-                                                    }
-                                                />
-                                            ))}
-                                        </Box>
-                                    )}
-                                >
-                                    {Object.keys(labels).map((label) => (
-                                        <MenuItem key={label} value={label}>
-                                            {`${labels[label].name}: ${labels[label].description}`}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        )}
-                        <FormControl className={styles.status}>
-                            <InputLabel id="status-select-label">Status</InputLabel>
+            <div className={styles.issues_section}>
+                <div className={styles.issues_section__filters}>
+                    {error.labels ? (
+                        <div>Error loading labels, please refresh the page</div>
+                    ) : (
+                        <FormControl sx={{ minWidth: 250 }}>
+                            <InputLabel id="issue-label-select-chip-label">Labels</InputLabel>
                             <Select
-                                labelId="status-select-label"
-                                id="status-select"
-                                value={status}
-                                label="Status"
-                                onChange={handleStatusChange}
+                                labelId="issue-label-select-chip-label"
+                                id="issue-label-select-chip"
+                                multiple
+                                value={selectedLabels}
+                                onChange={handleLabelChange}
+                                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                                        {selected.map((value) => (
+                                            <Chip
+                                                key={value}
+                                                label={labels[value].name}
+                                                avatar={
+                                                    <Avatar sx={{ bgcolor: `#${labels[value].color}` }}>
+                                                        <div></div>
+                                                    </Avatar>
+                                                }
+                                                onDelete={(e) => handleLabelDelete(e, value)}
+                                                deleteIcon={
+                                                    <CancelIcon onMouseDown={(event) => event.stopPropagation()} />
+                                                }
+                                            />
+                                        ))}
+                                    </Box>
+                                )}
                             >
-                                <MenuItem value={"all"}>All</MenuItem>
-                                <MenuItem value={"open"}>Open</MenuItem>
-                                <MenuItem value={"closed"}>Closed</MenuItem>
+                                {Object.keys(labels).map((label) => (
+                                    <MenuItem key={label} value={label}>
+                                        {`${labels[label].name}: ${labels[label].description}`}
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
-                    </div>
+                    )}
+                    <FormControl className={styles.status}>
+                        <InputLabel id="status-select-label">Status</InputLabel>
+                        <Select
+                            labelId="status-select-label"
+                            id="status-select"
+                            value={status}
+                            label="Status"
+                            onChange={handleStatusChange}
+                        >
+                            <MenuItem value={"all"}>All</MenuItem>
+                            <MenuItem value={"open"}>Open</MenuItem>
+                            <MenuItem value={"closed"}>Closed</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+                {error.issues ? (
+                    <p style={{ textAlign: "center" }}>No Data found</p>
+                ) : (
                     <PaginatedTable
                         loading={loading}
                         data={issues}
@@ -186,8 +193,8 @@ const Issues = () => {
                         handleChangePage={handleChangePage}
                         handleChangeRowsPerPage={handleChangeRowsPerPage}
                     />
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };
